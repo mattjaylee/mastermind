@@ -1,1 +1,2 @@
 # mastermind
+Allows you to play a game of mastermind where a code can be created by either the computer or human player. The code will then attempt to be guessed with a corresonding key given after each guess. Green key = correct color in correct spot. Yellow key = correct color in wrong spot. Gray = incorrect color. Computer will have 12 guesses to randomly guess the player's given code. 
