@@ -19,7 +19,7 @@ class Game
         code
     end
 
-    def start_game(player)
+    def start_game_player_guess(player)
         check_player_guess(self.code, player.guess)
         next_turn(player, self.code)
     end
@@ -30,6 +30,19 @@ class Game
         unless key == ["Green", "Green", "Green", "Green"]
             next_turn(player, secret_code)
         else puts "WINNER YOU GUESSED THE CODE"
+        end
+    end
+
+    def choose_role(player)
+        puts "To create the code, input 'c', to guess the code, input 'g'"
+        input = gets.chomp.downcase
+        case input
+        when 'c'
+            player_code = player.get_code
+            start_game_computer_guess(computer_guess(), player_code)
+        when 'g'
+            start_game_player_guess(player)
+        else choose_role(player)
         end
     end
 
@@ -60,6 +73,22 @@ class Game
         code_key
     end
 
+    def computer_guess
+        code = []
+        4.times do
+            code.push(COLORS[rand(6)])
+        end
+        code
+    end
+
+    def start_game_computer_guess(computer_guess, player_code)
+        12.times do
+            puts "Computer guessed #{computer_guess} and the code is #{player_code}"
+            if computer_guess == player_code then puts "Computer guessed correctly! Computer Wins!"
+            end
+        end
+        puts "Computer didn't guess correctly. Computer loses!"
+    end
 end
 
 class Player
@@ -72,8 +101,18 @@ class Player
         end
         player_guess
     end
+
+    def get_code 
+        puts "r = red, g = green, b = blue, y = yellow, p = purple, o = orange. Input a combination of 4"
+        player_code = gets.chomp.downcase.split('')
+        unless (player_code - Game::COLORS).empty? && player_code.length == 4
+            get_code()
+        end
+        player_code
+    end
+
 end
 
 
 game = Game.new
-game.start_game(game.player)
+game.choose_role(game.player)
